@@ -72,7 +72,7 @@ class PusherCheck extends Check
 
         $data = $this->hybi10Encode('{"event":"pusher:subscribe","data":{"channel":"test-channel"}}'); // {"event":"pusher:ping","data":{}}
         $data = <<<HERE
-        GET http://$socket HTTP/1.1
+        GET {$config['options']['scheme']}://$socket HTTP/1.1
         Host: {$config['options']['host']}
         Connection: Upgrade
         Pragma: no-cache
@@ -114,6 +114,8 @@ class PusherCheck extends Check
     }
 
     /**
+     * @see https://github.com/varspool/php-websocket/blob/master/client/lib/class.websocket_client.php
+     *
      * @param mixed $payload
      * @param string $type
      * @param boolean $masked

@@ -64,7 +64,8 @@ class PusherCheck extends Check
         );
 
         try {
-            $fp = stream_socket_client("tcp://$socket", $errno, $errstr, 1);
+            $remoteSocket = $config['options']['scheme'] == 'https' ? "ssl://$socket" : "tcp://$socket";
+            $fp = stream_socket_client($remoteSocket, $errno, $errstr, 1);
             stream_set_blocking($fp, false);
         } catch (\Exception $e) {
             return 'WS is not reachable.';

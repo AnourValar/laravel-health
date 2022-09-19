@@ -15,7 +15,7 @@ class QueueCheck extends Check
     /**
      * @var integer
      */
-    protected int $maxAgeInSeconds = 70;
+    protected int $maxAgeInSeconds = 120;
 
     /**
      * @param int $maxAgeInSeconds

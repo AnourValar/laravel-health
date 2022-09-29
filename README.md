@@ -57,3 +57,24 @@ $schedule->call(fn () => dispatch(new QueueCheckJob()))->everyMinute();
     \AnourValar\LaravelHealth\XdebugCheck::new(),
 ]);
 ```
+
+### SSL Certificate
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\SSLCertCheck::new()
+      ->url('google.com')
+      ->warnWhenExpiringDay(10)
+      ->failWhenExpiringDay(2),
+]);
+```
+
+### Cpu Load
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\CpuLoadCheck::new()->failWhenLoadIsHigher(
+        2.5, // last minute
+        2.0, // last 5 minutes
+        1.5  // last 15 minutes
+    )
+]);
+```

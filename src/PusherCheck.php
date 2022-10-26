@@ -97,21 +97,18 @@ class PusherCheck extends Check
         }
 
         $microtime = microtime(true);
-        while (microtime(true) - $microtime < 2) {
-            $data = fgets($fp, 1024);
-
-            if (strpos($data, 'pusher:error')) {
-                return 'WS unexptected response. Incorrect configuration?';
-            }
+        $data = '';
+        while (microtime(true) - $microtime < 3) {
+            $data .= fgets($fp, 1024);
 
             if (strpos($data, '{\"foo\":\"bar\"}')) {
+                fclose($fp);
                 return null;
             }
         }
 
         fclose($fp);
-
-        return 'WS is not responding.';
+        return 'WS unexpected response: ' . mb_convert_encoding($data, 'UTF-8', 'UTF-8');
     }
 
     /**

@@ -35,7 +35,7 @@ composer require anourvalar/laravel-health
 You must schedule dispatching of the AnourValar\LaravelHealth\Jobs\QueueCheckJob to run every minute. 
 
 ```php
-$schedule->call(fn () => dispatch(new QueueCheckJob()))->everyMinute();
+$schedule->call(fn () => dispatch(new QueueCheckJob()))->name('health:check-queue')->everyMinute();
 ```
 
 ```php

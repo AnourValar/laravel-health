@@ -32,7 +32,7 @@ composer require anourvalar/laravel-health
 
 ### QueueCheck
 
-You must schedule dispatching of the AnourValar\LaravelHealth\Jobs\QueueCheckJob to run every minute. 
+First, you must schedule dispatching of the AnourValar\LaravelHealth\Jobs\QueueCheckJob to run every minute. 
 
 ```php
 $schedule->call(fn () => dispatch(new QueueCheckJob()))->name('health:check-queue')->everyMinute();
@@ -76,5 +76,28 @@ $schedule->call(fn () => dispatch(new QueueCheckJob()))->name('health:check-queu
         2.0, // last 5 minutes
         1.5  // last 15 minutes
     )
+]);
+```
+
+### Gzip
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\GzipCheck::new()
+        ->shouldBeGzipped('/')
+        ->shouldNotBeGzipped('/image.png'),
+]);
+```
+
+### Reverse Proxy Security
+
+First, you must create a route for the checker.
+
+```php
+Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
+```
+
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\ReverseProxySecurityCheck::new()->url('/reverse-proxy-security'),
 ]);
 ```

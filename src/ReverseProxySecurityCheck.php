@@ -49,6 +49,9 @@ class ReverseProxySecurityCheck extends Check
                 $failed[] = 'X-Forwarded-Host';
             }
 
+            if ($data['ip'] == $data['remote_addr']) {
+                $failed[] = 'REMOTE_ADDR';
+            }
         } catch (ExternalException $e) {
             return $result->failed($e->getMessage());
         }

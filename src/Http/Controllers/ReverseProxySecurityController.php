@@ -2,9 +2,7 @@
 
 namespace AnourValar\LaravelHealth\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-
-class ReverseProxySecurityController extends Controller
+class ReverseProxySecurityController
 {
     /**
      * @see \AnourValar\LaravelHealth\ReverseProxySecurityCheck
@@ -17,6 +15,7 @@ class ReverseProxySecurityController extends Controller
         return encrypt([
             'ip' => $request->ip(),
             'host' => parse_url(url(''), PHP_URL_HOST),
+            'remote_addr' => $request->server('REMOTE_ADDR'),
         ]);
     }
 }

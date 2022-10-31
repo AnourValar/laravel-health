@@ -101,3 +101,27 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
     \AnourValar\LaravelHealth\ReverseProxySecurityCheck::new()->url('/reverse-proxy-security'),
 ]);
 ```
+
+### HTTP -> HTTPS 301 redirect
+```php
+\Spatie\Health\Facades\Health::checks([
+    AnourValar\LaravelHealth\Http2HttpsCheck::new()
+        ->shouldBeRedirected(['/', '/image.png']),
+]);
+```
+
+### www.host -> host 301 redirect (remove www)
+```php
+\Spatie\Health\Facades\Health::checks([
+    AnourValar\LaravelHealth\Www2NoneCheck::new()
+        ->shouldBeRedirected(['/', '/image.png']),
+]);
+```
+
+### Mailer
+```php
+\Spatie\Health\Facades\Health::checks([
+    AnourValar\LaravelHealth\MailerCheck::new()
+        ->mailer(null), // default
+]);
+```

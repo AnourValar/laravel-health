@@ -2,9 +2,10 @@
 
 namespace AnourValar\LaravelHealth;
 
+use AnourValar\LaravelHealth\Exceptions\ExternalException;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
-use AnourValar\LaravelHealth\Exceptions\ExternalException;
 
 class ReverseProxySecurityCheck extends Check
 {
@@ -52,7 +53,7 @@ class ReverseProxySecurityCheck extends Check
             if ($data['ip'] == $data['remote_addr']) {
                 $failed[] = 'REMOTE_ADDR';
             }
-        } catch (ExternalException $e) {
+        } catch (ExternalException|DecryptException $e) {
             return $result->failed($e->getMessage());
         }
 

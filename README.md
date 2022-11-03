@@ -110,7 +110,7 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
 ]);
 ```
 
-### www. -> none (remove www) 301 redirect
+### WWW -> none WWW 301 redirect
 ```php
 \Spatie\Health\Facades\Health::checks([
     \AnourValar\LaravelHealth\Www2NoneCheck::new()
@@ -123,5 +123,21 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
 \Spatie\Health\Facades\Health::checks([
     \AnourValar\LaravelHealth\MailerCheck::new()
         ->mailer(null), // default
+]);
+```
+
+### Sentry
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\SentryCheck::new()
+]);
+```
+
+### Directory Permissions
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\DirectoryPermissionsCheck::new()
+        ->writable(storage_path('logs'))
+        ->notWritable(app_path('')),
 ]);
 ```

@@ -24,7 +24,7 @@ class GzipCheck extends Check
      */
     public function shouldBeGzipped(array|string $urls): self
     {
-        $this->shouldBeGzipped = $this->normilizeUrls($urls);
+        $this->shouldBeGzipped = $this->normalizeUrls($urls);
 
         return $this;
     }
@@ -35,7 +35,7 @@ class GzipCheck extends Check
      */
     public function shouldNotBeGzipped(array|string $urls): self
     {
-        $this->shouldNotBeGzipped = $this->normilizeUrls($urls);
+        $this->shouldNotBeGzipped = $this->normalizeUrls($urls);
 
         return $this;
     }
@@ -112,7 +112,7 @@ class GzipCheck extends Check
      * @param array|string $urls
      * @return array
      */
-    private function normilizeUrls(array|string $urls): array
+    private function normalizeUrls(array|string $urls): array
     {
         $urls = (array) $urls;
 

@@ -19,7 +19,7 @@ class Http2HttpsCheck extends Check
      */
     public function shouldBeRedirected(array|string $urls): self
     {
-        $this->shouldBeRedirected = $this->normilizeUrls($urls);
+        $this->shouldBeRedirected = $this->normalizeUrls($urls);
 
         return $this;
     }
@@ -89,7 +89,7 @@ class Http2HttpsCheck extends Check
      * @param array|string $urls
      * @return array
      */
-    private function normilizeUrls(array|string $urls): array
+    private function normalizeUrls(array|string $urls): array
     {
         $urls = (array) $urls;
 

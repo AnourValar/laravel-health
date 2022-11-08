@@ -71,7 +71,7 @@ class PusherCheck extends Check
             return 'WS is not reachable.';
         }
 
-        $data = $this->hybi10Encode('{"event":"pusher:subscribe","data":{"channel":"test-channel"}}'); // {"event":"pusher:ping","data":{}}
+        $data = $this->hybi10Encode('{"event":"pusher:subscribe","data":{"channel":"public-test-channel"}}');
         $data = <<<HERE
         GET {$config['options']['scheme']}://$socket HTTP/1.1
         Host: {$config['options']['host']}
@@ -89,8 +89,11 @@ class PusherCheck extends Check
 
         fwrite($fp, $data);
 
+        // {"event":"pusher:ping","data":{}}
+
         try {
-            \Broadcast::broadcast(['test-channel'], 'test-event', ['foo' => 'bar']);
+            \Broadcast::broadcast(['public-test-channel'], 'test-event-01', ['foo' => 'bar']);
+            \Broadcast::broadcast(['public-test-channel'], 'test-event-02', ['foo' => 'bar']); // ¯\_(ツ)_/¯
         } catch (\Exception $e) {
             fclose($fp);
             return 'HTTP API is not reachable.';

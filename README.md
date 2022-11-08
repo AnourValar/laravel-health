@@ -129,7 +129,7 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
 ### Sentry
 ```php
 \Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\SentryCheck::new()
+    \AnourValar\LaravelHealth\SentryCheck::new(),
 ]);
 ```
 

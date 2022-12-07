@@ -141,3 +141,13 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
         ->notWritable(app_path('')),
 ]);
 ```
+
+### CORS
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\CorsCheck::new()
+        ->allowed('https://good.com')
+        ->disallowed('https://evil.com')
+        ->url('api/sanctum/csrf-cookie') // target endpoint
+]);
+```

@@ -12,7 +12,7 @@ composer require anourvalar/laravel-health
 ### FilesystemCheck
 ```php
 \Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\FilesystemCheck::new()->disks(['s3']),
+    \AnourValar\LaravelHealth\FilesystemCheck::new()->disks(['s3' => ($checkPublicUrl = true)]),
 ]);
 ```
 

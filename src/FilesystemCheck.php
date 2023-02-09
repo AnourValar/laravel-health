@@ -37,7 +37,12 @@ class FilesystemCheck extends Check
 
         $result = Result::make();
 
-        foreach ($this->disks as $disk) {
+        foreach ($this->disks as $disk => $hasUrl) {
+            if (is_numeric($disk)) {
+                $disk = $hasUrl;
+                $hasUrl = false;
+            }
+
             try {
                 \Storage::disk($disk)->files();
             } catch (\Exception $e) {
@@ -48,7 +53,7 @@ class FilesystemCheck extends Check
                 $path = sha1(\Str::random(50, 200));
             } while (\Storage::disk($disk)->exists($path));
 
-            if ($error = $this->checkFlow($disk, $path, 'file')) {
+            if ($error = $this->checkFlow($disk, $path, 'file', $hasUrl)) {
                 \Storage::disk($disk)->deleteDirectory($path);
 
                 return $result->failed($error);
@@ -62,9 +67,10 @@ class FilesystemCheck extends Check
      * @param string $disk
      * @param string $path
      * @param string $file
+     * @param bool $hasUrl
      * @return string|null
      */
-    private function checkFlow(string $disk, string $path, string $file): ?string
+    private function checkFlow(string $disk, string $path, string $file, bool $hasUrl): ?string
     {
         try {
             \Storage::disk($disk)->makeDirectory($path);
@@ -84,6 +90,16 @@ class FilesystemCheck extends Check
             }
         } catch (\Exception $e) {
             return "Disk \"$disk\": cannot get a file.";
+        }
+
+        if ($hasUrl) {
+            try {
+                if (file_get_contents(\Storage::disk($disk)->url("$path/$file")) != 'foo') {
+                    return "Disk \"$disk\": cannot fetch (via url) a file.";
+                }
+            } catch (\Exception $e) {
+                return "Disk \"$disk\": cannot fetch (via url) a file.";
+            }
         }
 
         try {

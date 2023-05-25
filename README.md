@@ -75,7 +75,7 @@ $schedule->call(fn () => dispatch(new QueueCheckJob()))->name('health:check-queu
         2.5, // last minute
         2.0, // last 5 minutes
         1.5  // last 15 minutes
-    )
+    ),
 ]);
 ```
 
@@ -149,5 +149,14 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
         ->allowed('https://good.com')
         ->disallowed('https://evil.com')
         ->url('api/sanctum/csrf-cookie') // target endpoint
+]);
+```
+
+### Cache Headers
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\CacheHeadersCheck::new()
+        ->shouldBeCached('/image.png')
+        ->shouldNotBeCached('/'),
 ]);
 ```

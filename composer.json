@@ -1,6 +1,6 @@
 {
     "name": "anourvalar/laravel-health",
-    "description": "Checks for the Laravel Health (Spatie)",
+    "description": "Additional Checks for Laravel Health (Spatie)",
     "keywords": [
          "anourvalar", "laravel", "health", "laravel-health", "spatie", "checks", "check", "monitoring", "metrics",
          "metric", "queue", "pusher", "broadcasting", "s3", "filesystem"
@@ -10,7 +10,7 @@
     "require": {
         "php": "^8.0",
         "laravel/framework": "^8.0|^9.0|^10.0",
-        "spatie/laravel-health": "^1.14"
+        "spatie/laravel-health": "^1.22"
     },
     "require-dev": {
         "nunomaduro/larastan": "^1.0",

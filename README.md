@@ -30,20 +30,6 @@ composer require anourvalar/laravel-health
 ]);
 ```
 
-### QueueCheck
-
-First, you must schedule dispatching of the AnourValar\LaravelHealth\Jobs\QueueCheckJob to run every minute. 
-
-```php
-$schedule->call(fn () => dispatch(new QueueCheckJob()))->name('health:check-queue')->everyMinute();
-```
-
-```php
-\Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\QueueCheck::new(),
-]);
-```
-
 ### QueueFailedCheck
 ```php
 \Spatie\Health\Facades\Health::checks([
@@ -148,7 +134,7 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
     \AnourValar\LaravelHealth\CorsCheck::new()
         ->allowed('https://good.com')
         ->disallowed('https://evil.com')
-        ->url('api/sanctum/csrf-cookie') // target endpoint
+        ->url('api/sanctum/csrf-cookie'), // target endpoint
 ]);
 ```
 

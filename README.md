@@ -146,3 +146,10 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
         ->shouldNotBeCached('/'),
 ]);
 ```
+
+### Root (user)
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\RootCheck::new(),
+]);
+```

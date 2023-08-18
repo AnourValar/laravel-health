@@ -76,7 +76,7 @@ composer require anourvalar/laravel-health
 
 ### Reverse Proxy Security
 
-First, you must create a route for the checker.
+First, you need to register a route for the checker.
 
 ```php
 Route::any('/health-ping', HealthPingController::class);
@@ -156,7 +156,7 @@ Route::any('/health-ping', HealthPingController::class);
 
 ### FastCGI
 
-First, you must create a route for the checker.
+First, you need to register a route for the checker.
 
 ```php
 Route::any('/health-ping', HealthPingController::class);

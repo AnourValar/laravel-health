@@ -153,3 +153,10 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
     \AnourValar\LaravelHealth\RootCheck::new(),
 ]);
 ```
+
+### FastCGI
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\FastCGICheck::new(),
+]);
+```

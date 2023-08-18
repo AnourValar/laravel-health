@@ -2,8 +2,6 @@
 
 namespace AnourValar\LaravelHealth;
 
-use AnourValar\LaravelHealth\Exceptions\ExternalException;
-use Illuminate\Contracts\Encryption\DecryptException;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 

@@ -79,12 +79,12 @@ composer require anourvalar/laravel-health
 First, you must create a route for the checker.
 
 ```php
-Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
+Route::any('/health-ping', HealthPingController::class);
 ```
 
 ```php
 \Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\ReverseProxySecurityCheck::new()->url('/reverse-proxy-security'),
+    \AnourValar\LaravelHealth\ReverseProxySecurityCheck::new()->url('/health-ping'),
 ]);
 ```
 
@@ -155,8 +155,15 @@ Route::any('/reverse-proxy-security', ReverseProxySecurityController::class);
 ```
 
 ### FastCGI
+
+First, you must create a route for the checker.
+
+```php
+Route::any('/health-ping', HealthPingController::class);
+```
+
 ```php
 \Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\FastCGICheck::new(),
+    \AnourValar\LaravelHealth\FastCGICheck::new()->url('/health-ping'),
 ]);
 ```

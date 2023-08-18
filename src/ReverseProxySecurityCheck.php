@@ -50,6 +50,14 @@ class ReverseProxySecurityCheck extends Check
                 $failed[] = 'X-Forwarded-Host';
             }
 
+            if ($data['port'] == '123') {
+                $failed[] = 'X-Forwarded-Port';
+            }
+
+            if (! $data['is_secure']) {
+                $failed[] = 'X-Forwarded-Proto';
+            }
+
             if ($data['ip'] == $data['remote_addr']) {
                 $failed[] = 'REMOTE_ADDR';
             }
@@ -75,10 +83,17 @@ class ReverseProxySecurityCheck extends Check
      */
     protected function secured(string $url): array
     {
+        $headers = [
+            'X-Forwarded-For: 127.0.0.2',
+            'X-Forwarded-Host: evilhost.loc',
+            'X-Forwarded-Port: 123',
+            'X-Forwarded-Proto: off',
+        ];
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['X-Forwarded-For: 127.0.0.2', 'X-Forwarded-Host: evilhost.loc']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);

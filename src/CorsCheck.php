@@ -9,7 +9,7 @@ use Spatie\Health\Checks\Result;
 class CorsCheck extends Check
 {
     /**
-     * @var array
+     * @var string
      */
     protected string $url = '';
 
@@ -103,7 +103,7 @@ class CorsCheck extends Check
     }
 
     /**
-     * @param string $url
+     * @param string $host
      * @throws \AnourValar\LaravelHealth\Exceptions\ExternalException
      * @return bool
      */

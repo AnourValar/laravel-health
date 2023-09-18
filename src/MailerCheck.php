@@ -13,7 +13,7 @@ class MailerCheck extends Check
     protected string $mailTo = 'laravel-health@example.net';
 
     /**
-     * @var array
+     * @var string|null
      */
     protected ?string $mailer = null;
 
@@ -49,8 +49,7 @@ class MailerCheck extends Check
         $result = Result::make();
 
         try {
-            \Mail
-                ::mailer($this->mailer ?? config('mail.default'))
+            \Mail::mailer($this->mailer ?? config('mail.default'))
                 ->to($this->mailTo)
                 ->send(new \AnourValar\LaravelHealth\Mail\MailerCheckMail());
         } catch (\Throwable $e) {

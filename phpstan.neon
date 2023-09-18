@@ -1,0 +1,33 @@
+parameters:
+
+    paths:
+        - src
+
+    # The level 9 is the highest level
+    level: 5
+
+    ignoreErrors:
+        - '#Class Sentry\\State\\HubInterface not found\.#'
+        - '#Call to static method disk\(\)#'
+        - '#Class AnourValar\\LaravelHealth\\FastCGICheck has an uninitialized property \$url\.#'
+        - '#Class AnourValar\\LaravelHealth\\SSLCertCheck has an uninitialized property \$url\.#'
+        - '#Class AnourValar\\LaravelHealth\\ReverseProxySecurityCheck has an uninitialized property \$url\.#'
+        - '#Call to static method#'
+        - '#Access to constant SDK_#'
+        - '#Call to an undefined method#'
+        - '#Variable \$mask might not be defined\.#'
+        - '#Instantiated class Sentry\\State\\Hub not found\.#'
+        - '#Call to method captureException\(\) on an unknown class Sentry\\State\\Hub\.#'
+
+    excludePaths:
+
+    checkFunctionNameCase: true
+    checkInternalClassCaseSensitivity: true
+    checkAlwaysTrueInstanceof: true
+    reportMaybesInMethodSignatures: true
+    reportStaticMethodSignatures: true
+    checkUninitializedProperties: true
+    checkDynamicProperties: true
+    reportAlwaysTrueInLastCondition: true
+    reportWrongPhpDocTypeInVarTag: true
+    checkMissingCallableSignature: true

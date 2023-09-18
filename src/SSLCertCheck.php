@@ -33,7 +33,7 @@ class SSLCertCheck extends Check
     }
 
     /**
-     * @param int $days
+     * @param int $warnExpiringDay
      * @return self
      */
     public function warnWhenExpiringDay(int $warnExpiringDay): self
@@ -43,7 +43,7 @@ class SSLCertCheck extends Check
     }
 
     /**
-     * @param int $days
+     * @param int $failExpiringDay
      * @return self
      */
     public function failWhenExpiringDay(int $failExpiringDay): self
@@ -69,7 +69,9 @@ class SSLCertCheck extends Check
 
         try {
             $expires = $this->getCert($this->url);
-            $expires = floor($expires / 60 / 60 / 24);
+            if ($expires) {
+                $expires = floor($expires / 60 / 60 / 24);
+            }
         } catch (\ErrorException $e) {
             return $result->failed($e->getMessage());
         }

@@ -8,7 +8,7 @@ use Spatie\Health\Checks\Result;
 class PusherCheck extends Check
 {
     /**
-     * @var array
+     * @var string|null
      */
     public ?string $connection = null;
 

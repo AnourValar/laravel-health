@@ -10,7 +10,7 @@ class PusherCheck extends Check
     /**
      * @var string|null
      */
-    public ?string $connection = null;
+    protected ?string $connection = null;
 
     /**
      * @param string|null $connection

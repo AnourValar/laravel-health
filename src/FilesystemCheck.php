@@ -10,7 +10,7 @@ class FilesystemCheck extends Check
     /**
      * @var array
      */
-    public ?array $disks = [];
+    protected ?array $disks = [];
 
     /**
      * @param array $disks

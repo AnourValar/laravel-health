@@ -125,7 +125,6 @@ class PusherCheck extends Check
     private function hybi10Encode($payload, $type = 'text', $masked = true): mixed
     {
         $frameHead = array();
-        $frame = '';
         $payloadLength = strlen($payload);
 
         switch ($type) {

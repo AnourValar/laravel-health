@@ -23,6 +23,8 @@ class DebuggerController
 
                 'server' => $request->server->all(),
                 'get_loaded_extensions' => get_loaded_extensions(),
+
+                'failed_jobs' => $this->getFailedJobs(),
             ],
             JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE
         );
@@ -44,5 +46,23 @@ class DebuggerController
         </body>
         </html>
         HERE;
+    }
+
+    /**
+     * @return array
+     */
+    private function getFailedJobs(): array
+    {
+        if (config('queue.default') == 'sync') {
+            return [];
+        }
+
+        $result = \App::make('queue.failer')->all();
+
+        foreach ($result as &$item) {
+            $item = (array) $item;
+        }
+
+        return $result;
     }
 }

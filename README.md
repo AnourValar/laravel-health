@@ -167,3 +167,11 @@ Route::any('/health-ping', HealthPingController::class);
     \AnourValar\LaravelHealth\FastCGICheck::new()->url('/health-ping'),
 ]);
 ```
+
+### Queue size
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\QueueSizeCheck::new()
+        ->add(['connection' => null, 'name' => null, 'max_size' => 200]),
+]);
+```

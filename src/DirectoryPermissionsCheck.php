@@ -56,6 +56,10 @@ class DirectoryPermissionsCheck extends Check
         $failed = [];
 
         foreach ($this->writable as $item) {
+            if (is_null($item)) {
+                throw new \Exception('Path cannot be null.');
+            }
+
             if (! is_dir($item)) {
                 $failed[] = sprintf('%s does not exist.', $item);
             }
@@ -66,6 +70,10 @@ class DirectoryPermissionsCheck extends Check
         }
 
         foreach ($this->notWritable as $item) {
+            if (is_null($item)) {
+                throw new \Exception('Path cannot be null.');
+            }
+
             if (! is_dir($item)) {
                 $failed[] = sprintf('%s does not exist.', $item);
             }

@@ -109,6 +109,16 @@ class CorsCheck extends Check
      */
     protected function isAllowed(string $host): bool
     {
+        $urlParsed = parse_url($this->url);
+        $urlParsed['host'] = mb_strtolower($urlParsed['host']);
+
+        $hostParsed = parse_url($host);
+        $hostParsed['host'] = mb_strtolower($hostParsed['host']);
+
+        if ($urlParsed['host'] == $hostParsed['host'] && ($urlParsed['port'] ?? null) == ($hostParsed['port'] ?? null)) {
+            return true;
+        }
+
         $ch = curl_init();
 
         curl_setopt($ch, CURLOPT_URL, $this->url);
@@ -131,7 +141,7 @@ class CorsCheck extends Check
         }
 
         $values = str_replace('*', '.*', trim($values[1]));
-        return preg_match("#$values#", $host);
+        return preg_match("#^$values$#i", $host);
     }
 
     /**

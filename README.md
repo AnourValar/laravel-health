@@ -175,3 +175,10 @@ Route::any('/health-ping', HealthPingController::class);
         ->add(['connection' => null, 'name' => null, 'max_size' => 200]),
 ]);
 ```
+
+### Octane server
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\OctaneCheck::new(),
+]);
+```

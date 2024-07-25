@@ -18,6 +18,7 @@ parameters:
         - '#Variable \$mask might not be defined\.#'
         - '#Instantiated class Sentry\\State\\Hub not found\.#'
         - '#Call to method captureException\(\) on an unknown class Sentry\\State\\Hub\.#'
+        - '#Class Laravel\\Octane\\#'
 
     excludePaths:
 

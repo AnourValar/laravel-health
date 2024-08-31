@@ -182,3 +182,10 @@ Route::any('/health-ping', HealthPingController::class);
     \AnourValar\LaravelHealth\OctaneCheck::new(),
 ]);
 ```
+
+### Redis Config
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\RedisConfigCheck::new(),
+]);
+```

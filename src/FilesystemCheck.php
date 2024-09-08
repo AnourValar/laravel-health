@@ -50,7 +50,7 @@ class FilesystemCheck extends Check
             }
 
             do {
-                $path = sha1(\Str::random(50, 200));
+                $path = 'temp_' . sha1(\Str::random(50, 200));
             } while (\Storage::disk($disk)->exists($path));
 
             if ($error = $this->checkFlow($disk, $path, 'file', $hasUrl)) {

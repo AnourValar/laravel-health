@@ -46,8 +46,6 @@ class RedisConfigCheck extends Check
         }
 
         foreach ($this->connections as $connection) {
-            $index = (int) config("database.redis.{$connection}.database");
-
             if ($this->getConfigDatabase($connection) != 16) {
                 return $result->warning(sprintf('"%s" connection has limited databases count', $connection));
             }

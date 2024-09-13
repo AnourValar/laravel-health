@@ -19,7 +19,10 @@ class DebuggerController
         $json = json_encode(
             [
                 'ip' => $request->ip(),
-                'url' => url(''),
+                'url_fact' => url(''),
+                'url_config' => config('app.url'),
+                'locale' => config('app.locale'),
+                'now' => now(),
 
                 'server' => $request->server->all(),
                 'get_loaded_extensions' => get_loaded_extensions(),

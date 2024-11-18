@@ -135,7 +135,7 @@ class CorsCheck extends Check
             throw new ExternalException(sprintf('%s is not reachable.', $this->url));
         }
 
-        preg_match('#[\r\n]Access-Control-Allow-Origin:(.+)#', $result, $values);
+        preg_match('#[\r\n]Access-Control-Allow-Origin:(.+)#i', $result, $values);
         if (! isset($values[1])) {
             return false;
         }

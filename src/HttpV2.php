@@ -6,20 +6,20 @@ use AnourValar\LaravelHealth\Exceptions\ExternalException;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
-class Www2NoneCheck extends Check
+class HttpV2 extends Check
 {
     /**
      * @var array
      */
-    protected array $shouldBeRedirected = [];
+    protected array $urls = [];
 
     /**
      * @param array|string $urls
      * @return self
      */
-    public function shouldBeRedirected(array|string $urls): self
+    public function urls(array|string $urls): self
     {
-        $this->shouldBeRedirected = $this->normalizeUrls($urls);
+        $this->urls = $this->normalizeUrls($urls);
 
         return $this;
     }
@@ -31,20 +31,20 @@ class Www2NoneCheck extends Check
      */
     public function run(): Result
     {
-        if (! $this->shouldBeRedirected) {
+        if (! $this->urls) {
             throw new \Exception('Urls are not set.');
         }
 
         $result = Result::make();
-        $this->label('WWW -> None');
+        $this->label('HTTP/2');
 
 
         try {
             $failed = [];
 
-            foreach ($this->shouldBeRedirected as $url) {
-                if (! $this->isRedirected($url)) {
-                    $failed[] = sprintf('%s 301 redirect missing.', $url);
+            foreach ($this->urls as $url) {
+                if (! $this->isHttpV2($url)) {
+                    $failed[] = sprintf('%s is not HTTP/2.', $url);
                 }
             }
         } catch (ExternalException $e) {
@@ -56,7 +56,7 @@ class Www2NoneCheck extends Check
             return $result->failed(implode(' ', $failed));
         }
 
-        $result->shortSummary(sprintf('%d url(s) checked.', count($this->shouldBeRedirected)));
+        $result->shortSummary(sprintf('%d url(s) checked.', count($this->urls)));
         return $result->ok();
     }
 
@@ -65,7 +65,7 @@ class Www2NoneCheck extends Check
      * @throws \AnourValar\LaravelHealth\Exceptions\ExternalException
      * @return bool
      */
-    protected function isRedirected(string $url): bool
+    protected function isHttpV2(string $url): bool
     {
         $ch = curl_init();
 
@@ -81,8 +81,8 @@ class Www2NoneCheck extends Check
             throw new ExternalException(sprintf('%s is not reachable.', $url));
         }
 
-        return preg_match('#(^|\s)HTTP/[\d\.]+ 301($|\s)#i', $result)
-            && preg_match('#(^|\s)Location: '.preg_quote(preg_replace('#^(https?://)(www\.|)#i', '$1', $url)).'/?($|\s)#i', $result);
+        preg_match('#(?:^|\s)HTTP/([\d\.])#i', $result, $result);
+        return ($result[1] ?? null) == '2';
     }
 
     /**
@@ -95,7 +95,6 @@ class Www2NoneCheck extends Check
 
         foreach ($urls as &$url) {
             $url = url($url);
-            $url = preg_replace('#^(https?://)(www\.|)#i', '$1www.', $url);
         }
         unset($url);
 

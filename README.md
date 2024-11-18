@@ -189,3 +189,10 @@ Route::any('/health-ping', HealthPingController::class);
     \AnourValar\LaravelHealth\RedisConfigCheck::new(),
 ]);
 ```
+
+### HTTP/2
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\HttpV2::new()->urls('/'),
+]);
+```

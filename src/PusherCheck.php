@@ -93,7 +93,6 @@ class PusherCheck extends Check
 
         try {
             \Broadcast::broadcast(['public-test-channel'], 'test-event-01', ['foo' => 'bar']);
-            \Broadcast::broadcast(['public-test-channel'], 'test-event-02', ['foo' => 'bar']); // ¯\_(ツ)_/¯
         } catch (\Exception $e) {
             fclose($fp);
             return 'HTTP API is not reachable.';

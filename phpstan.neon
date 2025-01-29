@@ -3,7 +3,7 @@ parameters:
     paths:
         - src
 
-    # The level 9 is the highest level
+    # The level 10 is the highest level
     level: 5
 
     ignoreErrors:
@@ -19,12 +19,12 @@ parameters:
         - '#Instantiated class Sentry\\State\\Hub not found\.#'
         - '#Call to method captureException\(\) on an unknown class Sentry\\State\\Hub\.#'
         - '#Class Laravel\\Octane\\#'
+        - '#DecryptException is never thrown in the try block#'
 
     excludePaths:
 
     checkFunctionNameCase: true
     checkInternalClassCaseSensitivity: true
-    checkAlwaysTrueInstanceof: true
     reportMaybesInMethodSignatures: true
     reportStaticMethodSignatures: true
     checkUninitializedProperties: true
@@ -32,3 +32,6 @@ parameters:
     reportAlwaysTrueInLastCondition: true
     reportWrongPhpDocTypeInVarTag: true
     checkMissingCallableSignature: true
+    reportPossiblyNonexistentGeneralArrayOffset: true
+    reportPossiblyNonexistentConstantArrayOffset: true
+    reportAnyTypeWideningInVarTag: true

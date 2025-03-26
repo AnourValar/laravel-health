@@ -56,41 +56,44 @@ class PusherCheck extends Check
             throw new \Exception('Unsupported driver for connection '.$connection);
         }
 
-        $socket = sprintf(
-            '%s:%d/app/%s?protocol=7&client=js&version=7.0.3&flash=false',
-            $config['options']['host'],
-            $config['options']['port'],
-            $config['key']
-        );
-
+        // Step 1: connect
         try {
-            $remoteSocket = $config['options']['scheme'] == 'https' ? "ssl://$socket" : "tcp://$socket";
-            $fp = stream_socket_client($remoteSocket, $errno, $errstr, 1);
+            $socket = sprintf('%s:%d', $config['options']['host'], $config['options']['port']);
+            $socket = $config['options']['scheme'] == 'https' ? "ssl://$socket" : "tcp://$socket";
+            $fp = stream_socket_client($socket, $errno, $errstr, 1);
             stream_set_blocking($fp, false);
         } catch (\Exception $e) {
             return 'WS is not reachable.';
         }
 
-        $data = $this->hybi10Encode('{"event":"pusher:subscribe","data":{"channel":"public-test-channel"}}');
-        $data = <<<HERE
-        GET {$config['options']['scheme']}://$socket HTTP/1.1
-        Host: {$config['options']['host']}
-        Connection: Upgrade
-        Pragma: no-cache
-        Cache-Control: no-cache
-        Upgrade: websocket
-        Accept-Encoding: gzip, deflate
-        Sec-WebSocket-Version: 13
-        Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==
-        Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits
-        
-        $data
-        HERE;
+        // Step 2: handshake
+        fwrite($fp, implode("\r\n", [
+            "GET /app/{$config['key']}?protocol=7&client=js&version=7.6.0&flash=false HTTP/1.1",
+            "Host: {$config['options']['host']}",
+            "Connection: Upgrade",
+            "Pragma: no-cache",
+            "Cache-Control: no-cache",
+            "Upgrade: websocket",
+            "Accept-Encoding: gzip, deflate",
+            "Sec-WebSocket-Version: 13",
+            "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==",
+            "Sec-WebSocket-Extensions: permessage-deflate; client_max_window_bits",
+            "\r\n",
+        ]));
 
-        fwrite($fp, $data);
+        // Step 3: subscribe
+        $data = '';
+        $microtime = microtime(true);
+        while (microtime(true) - $microtime < 3) {
+            $data .= fgets($fp, 1024);
 
-        // {"event":"pusher:ping","data":{}}
+            if (strpos($data, 'connection_established')) {
+                fwrite($fp, $this->hybi10Encode('{"event":"pusher:subscribe","data":{"channel":"public-test-channel"}}'));
+                break;
+            }
+        }
 
+        // Step 4: send an event
         try {
             \Broadcast::broadcast(['public-test-channel'], 'test-event-01', ['foo' => 'bar']);
         } catch (\Exception $e) {
@@ -98,8 +101,8 @@ class PusherCheck extends Check
             return 'HTTP API is not reachable.';
         }
 
+        // Step 5: catch the event in response
         $microtime = microtime(true);
-        $data = '';
         while (microtime(true) - $microtime < 3) {
             $data .= fgets($fp, 1024);
 

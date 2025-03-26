@@ -19,7 +19,6 @@ parameters:
         - '#Instantiated class Sentry\\State\\Hub not found\.#'
         - '#Call to method captureException\(\) on an unknown class Sentry\\State\\Hub\.#'
         - '#Class Laravel\\Octane\\#'
-        - '#DecryptException is never thrown in the try block#'
         - '#on an unknown class Sentry\\State\\HubInterface#'
 
     excludePaths:

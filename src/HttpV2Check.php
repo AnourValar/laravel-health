@@ -6,7 +6,7 @@ use AnourValar\LaravelHealth\Exceptions\ExternalException;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
-class HttpV2 extends Check
+class HttpV2Check extends Check
 {
     /**
      * @var array

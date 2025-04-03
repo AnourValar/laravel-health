@@ -193,6 +193,13 @@ Route::any('/health-ping', HealthPingController::class);
 ### HTTP/2
 ```php
 \Spatie\Health\Facades\Health::checks([
-    \AnourValar\LaravelHealth\HttpV2::new()->urls('/'),
+    \AnourValar\LaravelHealth\HttpV2Check::new()->urls('/'),
+]);
+```
+
+### HSTS
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\HstsCheck::new()->urls('/'),
 ]);
 ```

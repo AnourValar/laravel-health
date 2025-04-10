@@ -5,7 +5,7 @@ namespace AnourValar\LaravelHealth;
 use Spatie\Health\Checks\Check;
 use Spatie\Health\Checks\Result;
 
-class OctaneCheck extends Check
+class OctaneCheck extends Check // use a ping checker in case of docker
 {
     /**
      * @see https://spatie.be/docs/laravel-health/v1/basic-usage/creating-custom-checks

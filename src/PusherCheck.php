@@ -42,20 +42,49 @@ class PusherCheck extends Check
 
     /**
      * @throws \Exception
-     * @return ?string
+     * @return string|null
      */
     private function checkWs(): ?string
     {
+        // Prepare
         $connection = $this->connection;
         if (! $connection) {
             $connection = config('broadcasting.default');
         }
 
         $config = config("broadcasting.connections.$connection");
+        $configOriginal = $config;
+
         if ($config['driver'] != 'pusher') {
-            throw new \Exception('Unsupported driver for connection '.$connection);
+            throw new \Exception('Unsupported driver for connection: '.$connection);
         }
 
+        if (! empty($config['options']['host_external'])) {
+            $config['options']['host'] = $config['options']['host_external'];
+        }
+
+        if (! empty($config['options']['port_external'])) {
+            $config['options']['port'] = $config['options']['port_external'];
+            $config['options']['scheme'] = $config['options']['port'] == 443 ? 'https' : 'http';
+            $config['options']['useTLS'] = $config['options']['scheme'] === 'https';
+        }
+
+        // Check
+        try {
+            config(["broadcasting.connections.{$connection}" => $config]);
+            return $this->runCheckWs($connection, $config);
+        } finally {
+            config(["broadcasting.connections.{$connection}" => $configOriginal]);
+        }
+    }
+
+    /**
+     * @param string $connection
+     * @param array $config
+     * @return string|null
+     */
+    private function runCheckWs(string $connection, array $config): ?string
+    {
         // Step 1: connect
         try {
             $socket = sprintf('%s:%d', $config['options']['host'], $config['options']['port']);
@@ -63,7 +92,7 @@ class PusherCheck extends Check
             $fp = stream_socket_client($socket, $errno, $errstr, 1);
             stream_set_blocking($fp, false);
         } catch (\Exception $e) {
-            return 'WS is not reachable.';
+            return 'WS is not reachable: ' . $e->getMessage();
         }
 
         // Step 2: handshake
@@ -98,10 +127,10 @@ class PusherCheck extends Check
             \Broadcast::connection($connection)->broadcast(['public-test-channel'], 'test-event-01', ['foo' => 'bar']);
         } catch (\Exception $e) {
             fclose($fp);
-            return 'HTTP API is not reachable.';
+            return 'HTTP API is not reachable: ' . $e->getMessage();
         }
 
-        // Step 5: catch the event in response
+        // Step 5: catch the event in a response
         $microtime = microtime(true);
         while (microtime(true) - $microtime < 3) {
             $data .= fgets($fp, 1024);

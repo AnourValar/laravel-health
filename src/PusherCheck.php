@@ -26,7 +26,6 @@ class PusherCheck extends Check
     /**
      * @see https://spatie.be/docs/laravel-health/v1/basic-usage/creating-custom-checks
      *
-     * @throws \Exception
      * @return \Spatie\Health\Checks\Result
      */
     public function run(): Result
@@ -41,8 +40,8 @@ class PusherCheck extends Check
     }
 
     /**
-     * @throws \Exception
      * @return string|null
+     * @throws \RuntimeException
      */
     private function checkWs(): ?string
     {
@@ -56,7 +55,7 @@ class PusherCheck extends Check
         $configOriginal = $config;
 
         if ($config['driver'] != 'pusher') {
-            throw new \Exception('Unsupported driver for connection: '.$connection);
+            throw new \RuntimeException('Unsupported driver for connection: '.$connection);
         }
 
         if (! empty($config['options']['host_external'])) {

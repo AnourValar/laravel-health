@@ -81,6 +81,7 @@ class FilesystemCheck extends Check
                 if ($path) {
                     \Storage::disk($disk)->deleteDirectory($path);
                 }
+                \Storage::disk($disk)->delete("{$path}{$file}");
 
                 return $result->failed($error);
             }
@@ -137,7 +138,7 @@ class FilesystemCheck extends Check
         $fetch = file_get_contents(\Storage::disk($disk)->url("{$path}{$file}"), false, $context);
         $headers = json_encode($http_response_header);
         if ($hasUrl && ($fetch != 'foo' || ! stripos($headers, ' 200 '))) {
-            return "Disk \"$disk\": cannot fetch (via url) a file.";
+            return "Disk \"$disk\": cannot fetch (via url) a public file.";
         }
         if (! $hasUrl && (! stripos($fetch, 'AccessDenied') || ! stripos($headers, ' 403 '))) {
             return "Disk \"$disk\": can fetch (via url) a private file.";

@@ -80,8 +80,9 @@ class FilesystemCheck extends Check
             if ($error = $this->checkFlow($disk, $path, $file, $hasUrl)) {
                 if ($path) {
                     \Storage::disk($disk)->deleteDirectory($path);
+                } else {
+                    \Storage::disk($disk)->delete("{$path}{$file}");
                 }
-                \Storage::disk($disk)->delete("{$path}{$file}");
 
                 return $result->failed($error);
             }

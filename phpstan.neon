@@ -20,6 +20,8 @@ parameters:
         - '#Call to method captureException\(\) on an unknown class Sentry\\State\\Hub\.#'
         - '#Class Laravel\\Octane\\#'
         - '#on an unknown class Sentry\\State\\HubInterface#'
+        - '#has invalid type Illuminate\\Database\\MysqlConnection#'
+        - '#on an unknown class Illuminate\\Database\\MysqlConnection#'
 
     excludePaths:
 

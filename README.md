@@ -203,3 +203,11 @@ Route::any('/health-ping', HealthPingController::class);
     \AnourValar\LaravelHealth\HstsCheck::new()->urls('/'),
 ]);
 ```
+
+### DB Config (Postgresql, Mysql)
+```php
+\Spatie\Health\Facades\Health::checks([
+    \AnourValar\LaravelHealth\DBConfigCheck::new()
+        ->params(['transaction_isolation' => 'read committed']), // READ-COMMITTED
+]);
+```

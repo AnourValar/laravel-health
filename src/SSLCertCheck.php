@@ -65,7 +65,9 @@ class SSLCertCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('SSL');
+        if (! $this->label) {
+            $this->label('SSL');
+        }
 
         try {
             $expires = $this->getCert($this->url);

@@ -36,7 +36,9 @@ class Http2HttpsCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('HTTP -> HTTPS');
+        if (! $this->label) {
+            $this->label('HTTP -> HTTPS');
+        }
 
 
         try {

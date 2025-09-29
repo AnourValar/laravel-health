@@ -42,7 +42,9 @@ class HstsCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('HSTS');
+        if (! $this->label) {
+            $this->label('HSTS');
+        }
 
 
         try {

@@ -72,7 +72,9 @@ class CorsCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('CORS');
+        if (! $this->label) {
+            $this->label('CORS');
+        }
 
 
         try {

@@ -36,7 +36,9 @@ class Www2NoneCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('WWW -> None');
+        if (! $this->label) {
+            $this->label('WWW -> None');
+        }
 
 
         try {

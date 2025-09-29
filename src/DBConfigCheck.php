@@ -51,7 +51,9 @@ class DBConfigCheck extends Check
         }
 
         $result = Result::make();
-        $this->label('DB Config');
+        if (! $this->label) {
+            $this->label('DB Config');
+        }
 
         $factparams = $this->getFactParams();
         $errors = [];

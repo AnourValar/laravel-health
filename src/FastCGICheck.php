@@ -35,7 +35,9 @@ class FastCGICheck extends Check
             throw new \Exception('Url is not set.');
         }
 
-        $this->label('FastCGI');
+        if (! $this->label) {
+            $this->label('FastCGI');
+        }
         $result = Result::make();
 
         try {

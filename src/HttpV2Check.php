@@ -36,7 +36,9 @@ class HttpV2Check extends Check
         }
 
         $result = Result::make();
-        $this->label('HTTP/2');
+        if (! $this->label) {
+            $this->label('HTTP/2');
+        }
 
 
         try {

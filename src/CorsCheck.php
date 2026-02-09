@@ -131,7 +131,6 @@ class CorsCheck extends Check
         curl_setopt($ch, CURLOPT_HTTPHEADER, ["Origin: $host"]);
 
         $result = curl_exec($ch);
-        curl_close($ch);
 
         if ($result === false) {
             throw new ExternalException(sprintf('%s is not reachable.', $this->url));

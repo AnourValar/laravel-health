@@ -97,7 +97,6 @@ class ReverseProxySecurityCheck extends Check
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
         $result = curl_exec($ch);
-        curl_close($ch);
 
         if (! $result) {
             throw new ExternalException(sprintf('%s is not reachable.', $url));

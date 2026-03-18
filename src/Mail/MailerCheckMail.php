@@ -11,8 +11,7 @@ use Illuminate\Queue\SerializesModels;
 
 class MailerCheckMail extends Mailable
 {
-    use Queueable;
-    use SerializesModels;
+    use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.

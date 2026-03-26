@@ -137,7 +137,7 @@ class FilesystemCheck extends Check
         // access file from direct link?
         $context = stream_context_create(['http' => ['method' => 'GET', 'ignore_errors' => true]]);
         $fetch = file_get_contents(\Storage::disk($disk)->url("{$path}{$file}"), false, $context);
-        $headers = json_encode($http_response_header);
+        $headers = json_encode(http_get_last_response_headers());
         if ($hasUrl && ($fetch != 'foo' || ! stripos($headers, ' 200 '))) {
             return "Disk \"$disk\": cannot fetch (via url) a public file.";
         }

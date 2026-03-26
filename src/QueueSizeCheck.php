@@ -39,12 +39,14 @@ class QueueSizeCheck extends Check
 
         $failed = [];
         foreach ($this->queues as $queue) {
-            $size = $this->getSize($queue['connection'], $queue['name']);
-            if ($size > $queue['max_size']) {
+            $sizeTotal = $this->getSizeTotal($queue['connection'], $queue['name']);
+            $sizeDelayed = $this->getSizeDelayed($queue['connection'], $queue['name']);
+
+            if ($sizeTotal > $queue['max_size']) {
                 $queue['connection'] ??= config('queue.default');
                 $queue['name'] ??= config("queue.connections.{$queue['connection']}.queue");
 
-                $failed[] = sprintf('%s->%s size: %d', $queue['connection'], $queue['name'], $size);
+                $failed[] = sprintf('%s->%s size: %d [%d]', $queue['connection'], $queue['name'], $sizeTotal, $sizeDelayed);
             }
         }
 
@@ -62,8 +64,18 @@ class QueueSizeCheck extends Check
      * @param string $name
      * @return int
      */
-    protected function getSize(?string $connection, ?string $name): int
+    protected function getSizeTotal(?string $connection, ?string $name): int
     {
         return \Queue::connection($connection)->size($name);
+    }
+
+    /**
+     * @param string $connection
+     * @param string $name
+     * @return int
+     */
+    protected function getSizeDelayed(?string $connection, ?string $name): int
+    {
+        return \Queue::connection($connection)->delayedSize($name);
     }
 }

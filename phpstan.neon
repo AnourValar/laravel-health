@@ -21,6 +21,7 @@ parameters:
         - '#on an unknown class Sentry\\State\\HubInterface#'
         - '#has invalid type Illuminate\\Database\\MysqlConnection#'
         - '#on an unknown class Illuminate\\Database\\MysqlConnection#'
+        - '#Method Redis\:\:set\(#i'
 
     excludePaths:
 

@@ -27,8 +27,6 @@ class SentryCheck extends Check
      * @see https://spatie.be/docs/laravel-health/v1/basic-usage/creating-custom-checks
      *
      * @return \Spatie\Health\Checks\Result
-     * @psalm-suppress UndefinedClass
-     * @psalm-suppress UnusedVariable
      */
     public function run(): Result
     {

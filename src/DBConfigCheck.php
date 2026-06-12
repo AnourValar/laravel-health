@@ -103,7 +103,6 @@ class DBConfigCheck extends Check
     /**
      * @param \Illuminate\Database\MysqlConnection $connection
      * @return array
-     * @psalm-suppress UndefinedClass
      */
     private function getFactParamsMysql(\Illuminate\Database\MysqlConnection $connection): array
     {

@@ -24,7 +24,7 @@ class DebuggerController
                 'locale' => config('app.locale'),
                 'now' => now(),
 
-                'server' => $request->server->all(),
+                //'server' => $request->server->all(),
                 'get_loaded_extensions' => get_loaded_extensions(),
 
                 'failed_jobs' => $this->getFailedJobs(),
@@ -39,12 +39,12 @@ class DebuggerController
           <meta charset="utf-8" />
           <title>Debugger</title>
         </head>
-        
+
         <body>
           <div style="overflow-x: auto; border: 2px dotted black; margin: 4px; padding: 4px;">
             <pre>$json</pre>
           </div>
-        
+
           $phpinfo
         </body>
         </html>

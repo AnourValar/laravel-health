@@ -89,6 +89,7 @@ class HstsCheck extends Check
             throw new ExternalException(sprintf('%s is not reachable.', $url));
         }
 
-        return preg_match('#[\r\n]Strict-Transport-Security\:.+#i', $result);
+        preg_match('#[\r\n]Strict-Transport-Security:([^\n\r]+)#i', $result, $result);
+        return preg_match('#[1-9]#', ($result[1] ?? ''));
     }
 }
